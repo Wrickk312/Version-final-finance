@@ -42,7 +42,13 @@ export default function PnL(){
     })
   }, [period, rows])
 
-  const cats = {
+    // Tipado explícito para evitar "unknown"
+  type PnLCats = {
+    ingresos: Record<string, number>;
+    gastos: Record<string, number>;
+  };
+
+  const cats: PnLCats = {
     ingresos: {
       'ventas servicios': 0,
       'ventas mercadería': 0,
@@ -58,8 +64,7 @@ export default function PnL(){
       'marketing': 0,
       'otros gastos de explotación': 0
     }
-  } as Record<string, any>
-
+  };
   filtered.forEach(r=>{
     const key = r.categoria.toLowerCase()
     if(r.tipo==='ingreso'){
@@ -79,9 +84,9 @@ export default function PnL(){
     }
   })
 
-  const totalIng = Object.values(cats.ingresos).reduce((a:any,b:any)=>a+Number(b),0)
-  const totalGas = Object.values(cats.gastos).reduce((a:any,b:any)=>a+Number(b),0)
-  const resultado = totalIng - totalGas
+  const totalIng = Object.values(cats.ingresos).reduce((a, b) => a + b, 0);
+  const totalGas = Object.values(cats.gastos).reduce((a, b) => a + b, 0);
+  const resultado = totalIng - totalGas;
 
   return (
     <div className="space-y-6">
